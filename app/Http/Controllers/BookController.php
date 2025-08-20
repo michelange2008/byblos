@@ -9,7 +9,6 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\Intl\Languages;
-use Illuminate\Support\Facades\Http;
 use App\Services\OpenLibraryService;
 
 class BookController extends Controller
@@ -32,11 +31,11 @@ class BookController extends Controller
     /** 
      * Permet de télécharger l'epub
      */
-    public function download(Book $livre)
+    public function download(Book $book)
     {
-        $path = Storage::disk('local')->path('books/' . $livre->file);
+        $path = Storage::disk('local')->path('books/' . $book->file);
 
-        return response()->download($path, $livre->title . '.epub');
+        return response()->download($path, $book->title . '.epub');
     }
 
     /**
@@ -138,7 +137,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('edit_book', ['book' => $book]);
     }
 
     /**
@@ -146,7 +145,21 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'cover' => 'nullable|image|max:2048',
+        ]);
+dd($data);
+        if ($request->hasFile('cover')) {
+            $data['cover'] = $request->file('cover')->store('covers', 'public');
+        }
+
+        $book->update($data);
+
+        return redirect()->route('books.show', $book)
+                         ->with('success', 'Livre mis à jour avec succès !');
     }
 
     /**
@@ -154,6 +167,12 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $epub = $book->file;
+
+        Storage::disk('local')->delete("books/".$epub);
+
+        $book->delete();
+
+        return redirect()->route('books.index');
     }
 }
