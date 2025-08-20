@@ -19,16 +19,15 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/bibliotheque', [LibraryController::class, 'index'])->name('dashboard');
 
     Route::redirect('settings', 'settings/profile');
 
-    Route::controller(BookController::class)->group(function () {
+    // Route spécifique pour télécharger un livre
+    Route::get('books/{book}/download', [BookController::class, 'download'])
+        ->name('books.download');
 
-        Route::get('/livre/{book}', 'show');
-
-        Route::post('/livre', 'store');
-    });
+    // Routes CRUD standard
+    Route::resource('books', BookController::class);
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
