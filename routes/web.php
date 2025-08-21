@@ -1,21 +1,12 @@
 <?php
 
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\Library;
-use App\Http\Controllers\LibraryController;
-use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
-
-
 
 
 Route::middleware(['auth'])->group(function () {
@@ -42,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
 
     // **Update via POST au lieu de PUT/PATCH**
-    Route::post('/books/{book}/update', [BookController::class, 'update'])->name('books.update');
+    Route::put('/books/update/{book}', [BookController::class, 'update'])->name('books.update');
 
     // Supprime un livre
     Route::get('/books/{book}/destroy', [BookController::class, 'destroy'])->name('books.destroy');

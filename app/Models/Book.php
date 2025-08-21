@@ -10,13 +10,12 @@ class Book extends Model
         'title',
         'author',
         'authors',
+        'lastName',
         'file',
         'cover',
-        'isbn',
-        'language',
         'description',
-        'published_at',
         'publisher',
+        'published_at',
     ];
 
     protected $casts = [

@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.1.1",
         "livewire/volt": "^1.7.0",
+        "mikespub/php-epub-meta": "^3.5",
         "symfony/intl": "^7.3"
     },
     "require-dev": {

@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author')->nullable();
-            $table->text('description')->nullable();
+            $table->json('authors')->nullable();
+            $table->string('lastName')->nullable();
             $table->string('file'); // chemin du fichier epub
             $table->string('cover')->nullable(); // chemin de l’image de couverture
-            $table->string('isbn')->nullable();
-            $table->string('language')->nullable();
+            $table->text('description')->nullable();
             $table->string('publisher')->nullable();
             $table->date('publishedDate')->nullable();
-            $table->json('authors')->nullable();
             $table->timestamps();
         });
     }

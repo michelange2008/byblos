@@ -10,13 +10,14 @@
                         <img class="h-[25vh] w-auto object-cover border-2 border-gray-300 rounded"
                              src="{{ asset('storage/' . $book->cover) }}"
                              alt="{{ $book->title }}"
-                             title="{{ $book->author.' - '.$book->title }}">
+                             title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
                     </a>
 
                     <!-- Overlay (desktop only) -->
                     <div class="absolute inset-0 bg-black/50 rounded flex items-center justify-center gap-6
                                 opacity-0 group-hover:opacity-100 transition duration-300
-                                hidden sm:flex">
+                                hidden sm:flex"
+                                title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
                         <a href="{{ route('books.download', $book) }}"
                            class="text-white text-2xl hover:scale-125 transition">
                             <i class="fa-solid fa-download"></i>

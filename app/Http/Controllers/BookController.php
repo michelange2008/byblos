@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\Intl\Languages;
 use App\Services\OpenLibraryService;
+use SebLucas\EPubMeta\EPub;
+use ZipArchive;
+use SimpleXMLElement;
 
 class BookController extends Controller
 {
@@ -62,38 +65,40 @@ class BookController extends Controller
 
 
         // 2️⃣ Lire le EPUB avec kiwilan/php-ebook
+   
         $ebook = \Kiwilan\Ebook\Ebook::read(Storage::disk('local')->path($epubPath));
-        // dd($ebook);
 
         // 3️⃣ Extraire métadonnées
-        $title         = $ebook->getTitle() ?? 'Titre inconnu';
+        $title = $ebook->getTitle() ?? 'Titre inconnu';
+        
         $authors = $ebook->getAuthors();
         $author = $ebook->getAuthorMain()->getName() ?? ($authors[0] ?? 'Auteur inconnu');
+
+        $lastName = $author;
+        if ( count(explode(' ', $author)) > 1  ) {
+            $parts = explode(' ', $author);
+            $lastName = end($parts);
+        }       
 
         // Renommer le fichier dans le storage
         $safeTitle = Str::slug($title);
         $safeAuthor = Str::slug($author);
         $safeName = $safeTitle . "_" . $safeAuthor . '.epub';
-
+        
         $newPath = 'books/' . $safeName;
         Storage::move($epubPath, $newPath);
-
+        
         $authors = collect($ebook->getAuthors())
             ->map(fn($a) => $a?->name ?? '')
             ->filter()
             ->all(); // tableau d’auteurs
 
-        $language_code = $ebook->getLanguage();
-        $language_code = substr($language_code, 0, 2);
-        // Transformer fr en français
-        $language      = Languages::getName($language_code) ?? 'Inconnu';
         $description   = $request->description ?? '';
         $publishedDate = $ebook->getPublishDate()?->format('Y-m-d') ?? null;
         $publisher     = $ebook->getPublisher()?->name ?? 'Inconnu';
-        $isbn          = $ebook->getIdentifiers()?->identifier ?? null;
-
+        
         $coverObj = $ebook->getCover();
-
+        
         if ($coverObj) {
             // Récupérer le contenu binaire de l'image
             $cover = $coverObj->getContents(); // méthode recommandée par la lib
@@ -103,26 +108,25 @@ class BookController extends Controller
         }
             
             // Sauvegarde
-            $coverPath = 'books/' . Str::slug($title) . '.jpg';
+            $coverPath = 'covers/' . Str::slug($title) . '.jpg';
             Storage::disk('public')->put($coverPath, $cover);
-
+            
         // 5️⃣ Enregistrer dans la base
         $book = Book::create([
             'title'        => $title,
             'author'       => $author,
             'authors'      => $authors,       // Laravel gère le JSON automatiquement
+            'lastName'     => $lastName,
             'file'         => basename($newPath),
             'cover'        => $coverPath,
-            'isbn'         => $isbn,
-            'language'     => $language,
             'description'  => $description,
+            'publisher'    => $publisher,
             'publisheDate' => $publishedDate,
-            'publisher'    => $publisher
         ]);
 
         return redirect()->route('books.index')->with('success', 'Livre ajouté !');
     }
-
+    
 
     /**
      * Display the specified resource.
@@ -131,15 +135,15 @@ class BookController extends Controller
     {
         return view('book', ['book' => $book]);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
-     */
+    */
     public function edit(Book $book)
     {
         return view('edit_book', ['book' => $book]);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
@@ -157,22 +161,22 @@ dd($data);
         }
 
         $book->update($data);
-
+        
         return redirect()->route('books.show', $book)
                          ->with('success', 'Livre mis à jour avec succès !');
     }
 
     /**
      * Remove the specified resource from storage.
-     */
+    */
     public function destroy(Book $book)
     {
         $epub = $book->file;
 
         Storage::disk('local')->delete("books/".$epub);
-
+        
         $book->delete();
-
+        
         return redirect()->route('books.index');
     }
 }

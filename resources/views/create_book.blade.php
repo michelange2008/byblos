@@ -32,49 +32,51 @@
         </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropZone = document.getElementById('dropZone');
-            const fileInput = document.getElementById('fileInput');
-            const fileList = document.getElementById('fileList');
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
 
-            const highlight = () => dropZone.style.backgroundColor = '#f0f0f0';
-            const unhighlight = () => dropZone.style.backgroundColor = '';
+    const highlight = () => dropZone.style.backgroundColor = '#f0f0f0';
+    const unhighlight = () => dropZone.style.backgroundColor = '';
 
-            const updateFileList = () => {
-                if (fileInput.files.length === 0) {
-                    fileList.textContent = '';
-                } else if (fileInput.files.length === 1) {
-                    fileList.textContent = fileInput.files[0].name;
-                } else {
-                    fileList.textContent = `${fileInput.files.length} fichiers sélectionnés`;
-                }
-            };
+    const updateFileList = () => {
+        if (fileInput.files.length === 0) {
+            fileList.textContent = '';
+        } else if (fileInput.files.length === 1) {
+            fileList.textContent = fileInput.files[0].name;
+        } else {
+            fileList.textContent = `${fileInput.files.length} fichiers sélectionnés`;
+        }
+    };
 
-            dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', () => fileInput.click());
 
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                highlight();
-            });
+    dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        highlight();
+    });
 
-            dropZone.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                unhighlight();
-            });
+    dropZone.addEventListener('dragleave', e => {
+        e.preventDefault();
+        unhighlight();
+    });
 
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                unhighlight();
+    dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        unhighlight();
 
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    fileInput.files = files;
-                    updateFileList();
-                }
-            });
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const dataTransfer = new DataTransfer();
+            for (let i = 0; i < files.length; i++) {
+                dataTransfer.items.add(files[i]);
+            }
+            fileInput.files = dataTransfer.files;
+            updateFileList();
+        }
+    });
 
-            fileInput.addEventListener('change', updateFileList);
-        });
-    </script>
+    fileInput.addEventListener('change', updateFileList);
+</script>
 </x-layouts.app>

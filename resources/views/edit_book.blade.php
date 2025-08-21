@@ -14,7 +14,7 @@
 
         <form action="{{ route('books.update', $book) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
-
+            @method('PUT')
             <!-- Titre -->
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700">Titre</label>
