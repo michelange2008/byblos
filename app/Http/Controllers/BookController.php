@@ -22,7 +22,8 @@ class BookController extends Controller
     // Affiche la liste des livres
     public function index()
     {
-        $books = Book::all();
+        $books = Book::orderBy('lastName')->get();
+
         // dd($books);
         return view('dashboard', compact('books'));
     }
