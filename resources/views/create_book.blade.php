@@ -27,8 +27,8 @@
                 <textarea class="w-full p-4 border border-gray-300 rounded-md resize-none" name="description" id="descr" rows="5"></textarea>
             </div>
             <button
-                class="mb-[2px] flex h-10 w-full items-center rounded-lg text-zinc-500 hover:bg-zinc-800/5 hover:text-zinc-800 lg:h-8 dark:text-white/80 dark:hover:bg-white/[7%] dark:hover:text-white"
-                type="submit">Valider</button>
+                class="inline-block m-auto mt-4 lg:mt-8 px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                type="submit">Ajouter le livre</button>
         </form>
     </div>
 
