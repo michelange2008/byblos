@@ -69,7 +69,15 @@ class BookController extends Controller
         $title = $ebook->getTitle() ?? 'Titre inconnu';
         
         $authors = $ebook->getAuthors();
-        $author = $ebook->getAuthorMain()->getName() ?? ($authors[0] ?? 'Auteur inconnu');
+        $authorMain = $ebook->getAuthorMain();
+                
+        if ($authorMain && method_exists($authorMain, 'getName')) {
+            $author = $authorMain->getName();
+        } elseif (!empty($authors)) {
+            $author = $authors[0]; // Premier auteur si getAuthorMain() absent
+        } else {
+            $author = 'Auteur inconnu';
+}
 
         $lastName = $author;
         if ( count(explode(' ', $author)) > 1  ) {
