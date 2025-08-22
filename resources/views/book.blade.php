@@ -33,7 +33,7 @@
                                     @csrf
                                     @method('GET')
     
-                                    <button type="button" class="inline-block m-auto px-5 py-1.5 text-red-800 dark:text-[#EDEDEC] border-[#19140035] hover:bg-red-800 hover:text-white hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal" @click="open = true">
+                                    <button type="button" class="inline-block m-auto px-5 py-1.5 text-red-800 dark:text-[#EDEDEC] border-[#19140035] hover:bg-red-800 hover:text-white hover:border-[#1915014a] border dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal" @click="open = true">
                                         Supprimer
                                     </button>
     

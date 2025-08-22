@@ -14,7 +14,7 @@
                     </a>
 
                     <!-- Overlay (desktop only) -->
-                    <div class="absolute inset-0 bg-black/50 rounded flex items-center justify-center gap-6
+                    <div class="absolute inset-0 bg-black/50 rounded items-center justify-center gap-6
                                 opacity-0 group-hover:opacity-100 transition duration-300
                                 hidden sm:flex"
                                 title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
