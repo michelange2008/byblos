@@ -31,14 +31,6 @@
                         >
                             Bibliothèque
                         </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            {{  __("common.Login") }}
-                        </a>
-
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
@@ -46,7 +38,14 @@
                                 {{ __("common.Register") }}
                             </a>
                         @endif
+                        @else
+                        <a href="{{ route('login') }}"
+                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                        >
+                        {{  __("common.Login") }}
+                    </a>
                     @endauth
+                        
                 </nav>
             @endif
         </header>
@@ -56,8 +55,8 @@
                     <p class="mb-1 ">Byblos</p>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Partageons nos lectures.
                 </div>
-                <div class="bg-[#fff] dark:bg-[#1D0002] relative flex lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
-                    <img class="self-end" src="{{ asset('storage/img/babel.jpg') }}" alt="Bibliothèque de Babylone">
+                <div class="bg-[#fff] dark:bg-[#1D0002] relative flex items-center lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
+                    <img class="" src="{{ asset('storage/img/babel.jpg') }}" alt="Bibliothèque de Babylone">
                 </div>
             </main>
         </div>

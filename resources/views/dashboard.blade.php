@@ -35,10 +35,6 @@
                        class="text-gray-700 hover:text-black transition">
                         <i class="fa-solid fa-download text-xl"></i>
                     </a>
-                    <a href="{{ route('books.show', $book) }}"
-                       class="text-gray-700 hover:text-black transition">
-                        <i class="fa-regular fa-eye text-xl"></i>
-                    </a>
                 </div>
 
             </div>

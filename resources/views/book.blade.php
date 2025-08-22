@@ -1,6 +1,9 @@
 <x-layouts.app : title="{{ $book->title }}">
     <div class="flex flex-col gap-2 xl:w-4/5 mr-5">
         <div class="">
+            <p class="text-gray-500 underline mb-2">
+                <a href="{{ route('books.index') }}"><i class="fa-solid fa-caret-left"></i>&nbsp;Retour à la bibliothèque</a>
+            </p>
             <h1 class="font-bold text-3xl">
                 {{ $book->title }}
             </h1>
