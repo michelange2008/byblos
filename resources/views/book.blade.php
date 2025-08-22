@@ -15,38 +15,41 @@
             </div>
             <div class="basis-2/3 flex flex-col gap-5 text-justify py-2 px-8">
                 <p>{{ $book->description }} </p>
-                <div class="flex flex-row gap-1">
-                    <a href="{{ route('books.download', $book) }}"
-                        class="inline-block m-auto px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                        Télécharger
-                    </a>
-                                        
-                    @auth
-                        @if(auth()->user()->email === 'michelange@wanadoo.fr')
-                            <a href="{{ route('books.edit', $book) }}"
+                <div class="flex flex-row justify-between">
+                    <div>
+                        <a href="{{ route('books.download', $book) }}"
                             class="inline-block m-auto px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Modifier
-                            </a>
-                            <form action="{{ route('books.destroy', $book) }}" method="GET" x-data="{ open: false }">
-                                @csrf
-                                @method('GET')
-
-                                <button type="button" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" @click="open = true">
-                                    Supprimer
-                                </button>
-
-                                <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black/50">
-                                    <div class="bg-white p-6 rounded shadow-lg">
-                                        <p class="mb-4">Voulez-vous vraiment supprimer ce livre ?</p>
-                                        <div class="flex justify-end gap-2">
-                                            <button @click="open = false" type="button" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
-                                            <button @click="$el.closest('form').submit()" type="button" class="px-4 py-2 bg-red-600 text-white rounded">Supprimer</button>
+                            Télécharger
+                        </a>
+                    </div>
+                    <div class="flex flex-row gap-2">
+                        @auth
+                            @if(auth()->user()->email === 'michelange@wanadoo.fr')
+                                <a href="{{ route('books.edit', $book) }}"
+                                class="inline-block m-auto px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                    Modifier
+                                </a>
+                                <form action="{{ route('books.destroy', $book) }}" method="GET" x-data="{ open: false }">
+                                    @csrf
+                                    @method('GET')
+    
+                                    <button type="button" class="inline-block m-auto px-5 py-1.5 text-red-800 dark:text-[#EDEDEC] border-[#19140035] hover:bg-red-800 hover:text-white hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal" @click="open = true">
+                                        Supprimer
+                                    </button>
+    
+                                    <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="bg-white p-6 rounded shadow-lg">
+                                            <p class="mb-4">Voulez-vous vraiment supprimer ce livre ?</p>
+                                            <div class="flex justify-end gap-2">
+                                                <button @click="open = false" type="button" class="px-4 py-2 bg-gray-300 rounded">Annuler</button>
+                                                <button @click="$el.closest('form').submit()" type="button" class="px-4 py-2 bg-red-600 text-white rounded">Supprimer</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        @endif
-                    @endauth
+                                </form>
+                            @endif
+                        @endauth
+                    </div>                                        
                 </div>
             </div>
         </div>
