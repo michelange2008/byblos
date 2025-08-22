@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "intervention/image": "^3.11",
         "kiwilan/php-ebook": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
@@ -19,6 +20,7 @@
         "symfony/intl": "^7.3"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.6",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",

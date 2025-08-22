@@ -9,9 +9,12 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Services\OpenLibraryService;
+use App\Traits\HandlesCovers;
 
 class BookController extends Controller
 {
+    use HandlesCovers;
+    
     protected $coverService;
 
     public function __construct(OpenLibraryService $coverService)
@@ -104,17 +107,10 @@ class BookController extends Controller
         
         $coverObj = $ebook->getCover();
         
-        if ($coverObj) {
-            // Récupérer le contenu binaire de l'image
-            $cover = $coverObj->getContents(); // méthode recommandée par la lib
-        } else {
-            // fallback : récupérer depuis Open Library
-            $cover = $this->coverService->fetchCover($title, $author);
-        }
-            
-            // Sauvegarde
-            $coverPath = 'covers/' . Str::slug($title) . '.jpg';
-            Storage::disk('public')->put($coverPath, $cover);
+        $coverContents = $ebook->getCover()?->getContents()
+                        ?? $this->coverService->fetchCover($title, $author);
+
+        $coverPath = $this->storeCover($title, $coverContents);
             
         // 5️⃣ Enregistrer dans la base
         $book = Book::create([
