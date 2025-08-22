@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Symfony\Component\Intl\Languages;
 use App\Services\OpenLibraryService;
-use SebLucas\EPubMeta\EPub;
-use ZipArchive;
-use SimpleXMLElement;
 
 class BookController extends Controller
 {
@@ -151,20 +147,20 @@ class BookController extends Controller
     {
         $validated = $request->validated();
 
-    if ($request->hasFile('cover')) {
-        // Supprimer l’ancienne si elle existe
-        if ($book->cover && \Storage::exists($book->cover)) {
-            \Storage::delete($book->cover);
+        if ($request->hasFile('cover')) {
+            // Supprimer l’ancienne si elle existe
+            if ($book->cover && Storage::exists($book->cover)) {
+                Storage::delete($book->cover);
+            }
+
+            // Générer un nom de fichier personnalisé avec slug + extension
+            $filename = Str::slug($validated['title']) . '.' . $request->file('cover')->getClientOriginalExtension();
+
+            // Stocker dans storage/app/public/covers
+            $path = $request->file('cover')->storeAs('covers', $filename, 'public');
+
+            $validated['cover'] = $path;
         }
-
-        // Générer un nom de fichier personnalisé avec slug + extension
-        $filename = Str::slug($validated['title']) . '.' . $request->file('cover')->getClientOriginalExtension();
-
-        // Stocker dans storage/app/public/covers
-        $path = $request->file('cover')->storeAs('covers', $filename, 'public');
-
-        $validated['cover'] = $path;
-    }
 
         $book->update($validated);
         
@@ -184,15 +180,5 @@ class BookController extends Controller
         $book->delete();
         
         return redirect()->route('books.index');
-    }
-
-    function cover_edit(Book $book)
-    {
-        return view('books.covers.cover.edit', ['book' => $book]);    
-    }
-
-    function cover_store(Request $request, Book $book)
-    {
-        
     }
 }
