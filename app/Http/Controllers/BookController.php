@@ -149,18 +149,24 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'cover' => 'nullable|image|max:2048',
-        ]);
-dd($data);
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('covers', 'public');
+        $validated = $request->validated();
+
+    if ($request->hasFile('cover')) {
+        // Supprimer l’ancienne si elle existe
+        if ($book->cover && \Storage::exists($book->cover)) {
+            \Storage::delete($book->cover);
         }
 
-        $book->update($data);
+        // Générer un nom de fichier personnalisé avec slug + extension
+        $filename = Str::slug($validated['title']) . '.' . $request->file('cover')->getClientOriginalExtension();
+
+        // Stocker dans storage/app/public/covers
+        $path = $request->file('cover')->storeAs('covers', $filename, 'public');
+
+        $validated['cover'] = $path;
+    }
+
+        $book->update($validated);
         
         return redirect()->route('books.show', $book)
                          ->with('success', 'Livre mis à jour avec succès !');
@@ -178,5 +184,15 @@ dd($data);
         $book->delete();
         
         return redirect()->route('books.index');
+    }
+
+    function cover_edit(Book $book)
+    {
+        return view('books.covers.cover.edit', ['book' => $book]);    
+    }
+
+    function cover_store(Request $request, Book $book)
+    {
+        
     }
 }

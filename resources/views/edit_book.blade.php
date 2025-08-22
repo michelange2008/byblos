@@ -29,6 +29,13 @@
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
 
+            <!-- Nom de famille de l'auteur -->
+            <div>
+                <label for="lastName" class="block text-sm font-medium text-gray-700">Nom de famille de l'auteur</label>
+                <input type="text" name="lastName" id="lastName" value="{{ old('lastName', $book->lastName) }}"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
             <!-- Description -->
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>

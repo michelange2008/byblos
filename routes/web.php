@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
+use Kiwilan\Ebook\Models\BookAuthor;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
@@ -37,6 +38,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Supprime un livre
     Route::get('/books/{book}/destroy', [BookController::class, 'destroy'])->name('books.destroy');
+
+    // Modifier l'image de couverture d'un livre
+    Route::get('books/cover/{books}', [BookController::class, 'edit_cover'])->name('cover.edit');
+
+    // Enregistrer le modification de la couverture du livre
+    Route::post('books/cover/store/{books}', [BookController::class, 'cover_store'])->name('cover.store');
+
 
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
