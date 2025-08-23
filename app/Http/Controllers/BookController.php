@@ -28,7 +28,7 @@ class BookController extends Controller
         $books = Book::orderBy('lastName')->get();
 
         // dd($books);
-        return view('dashboard', compact('books'));
+        return view('bibliotheque', compact('books'));
     }
 
     /** 
@@ -104,16 +104,14 @@ class BookController extends Controller
         $description   = $request->description ?? '';
         $publishedDate = $ebook->getPublishDate()?->format('Y-m-d') ?? null;
         $publisher     = $ebook->getPublisher()?->name ?? 'Inconnu';
-        
-        $coverObj = $ebook->getCover();
-        
+
         $coverContents = $ebook->getCover()?->getContents()
                         ?? $this->coverService->fetchCover($title, $author);
 
         $coverPath = $this->storeCover($title, $coverContents);
             
         // 5️⃣ Enregistrer dans la base
-        $book = Book::create([
+        Book::create([
             'title'        => $title,
             'author'       => $author,
             'authors'      => $authors,       // Laravel gère le JSON automatiquement
