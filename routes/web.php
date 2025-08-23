@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Kiwilan\Ebook\Models\BookAuthor;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
@@ -13,6 +13,10 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::redirect('settings', 'settings/profile');
+
+    Route::get('addUser', [UserController::class, 'add'])->name('user.add');
+
+    Route::post('userStore', [UserController::class, 'store'])->name('user.store');
 
     // Route spécifique pour télécharger un livre
     Route::get('books/{book}/download', [BookController::class, 'download'])
