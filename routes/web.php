@@ -12,6 +12,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/admin/tags', function () {
+        return view('admin.tags');
+    })->name('admin.tags');
+
+
     Route::redirect('settings', 'settings/profile');
 
     Route::get('addUser', [UserController::class, 'add'])->name('user.add');
