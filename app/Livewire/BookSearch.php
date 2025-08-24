@@ -10,7 +10,7 @@ class BookSearch extends Component
     public $query = '';
     public $books = [];
     public $page = 1;
-    public $perPage = 10;
+    public $perPage = 12;
     public $hasMore = true;
 
     protected $updatesQueryString = ['query'];
