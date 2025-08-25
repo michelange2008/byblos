@@ -26,4 +26,15 @@ class Book extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getOwnerAttribute()
+    {
+        return $this->users->first();
+    }
+
 }

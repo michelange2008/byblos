@@ -4,22 +4,31 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Middleware\AdminOnly;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('home');    
+
+
+
+Route::middleware([AdminOnly::class])->prefix('admin')->group(function () {
+    
+    // Listes de livres de la page admin
+    Route::get('/books', [BookController::class, 'indexAdmin'])->name('admin.books');
+    
+    Route::get('addUser', [UserController::class, 'add'])->name('user.add');
+
+});            
 
 
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/admin/tags', function () {
+    
+    Route::get('/tags', function () {
         return view('admin.tags');
-    })->name('admin.tags');
-
+    })->name('admin.tags');        
 
     Route::redirect('settings', 'settings/profile');
-
-    Route::get('addUser', [UserController::class, 'add'])->name('user.add');
 
     Route::post('userStore', [UserController::class, 'store'])->name('user.store');
 
@@ -27,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('books/{book}/download', [BookController::class, 'download'])
         ->name('books.download');
 
-    // Liste tous les livres
+    // Liste tous les livres    
     Route::get('/books', [BookController::class, 'index'])->name('books.index');
 
     // Affiche le formulaire pour créer un nouveau livre
@@ -47,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Supprime un livre
     Route::get('/books/{book}/destroy', [BookController::class, 'destroy'])->name('books.destroy');
+
 
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');

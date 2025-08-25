@@ -6,15 +6,17 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Services\OpenLibraryService;
 use App\Traits\HandlesCovers;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
     use HandlesCovers;
-    
+
     protected $coverService;
 
     public function __construct(OpenLibraryService $coverService)
@@ -30,6 +32,20 @@ class BookController extends Controller
         // dd($books);
         return view('bibliotheque', compact('books'));
     }
+
+    // Affiche dans la page d'administration la liste des livres avec date et nom de celui qui l'a mis
+    public function indexAdmin()
+    {
+        // Récupère tous les livres avec l'utilisateur lié, triés du plus récent au plus ancien
+        $books = Book::with('users')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $users = User::with('books')->get();
+
+        return view('admin.index_books', compact('books', 'users'));
+    }
+
 
     /** 
      * Permet de télécharger l'epub
@@ -65,37 +81,37 @@ class BookController extends Controller
 
 
         // 2️⃣ Lire le EPUB avec kiwilan/php-ebook
-   
+
         $ebook = \Kiwilan\Ebook\Ebook::read(Storage::disk('local')->path($epubPath));
 
         // 3️⃣ Extraire métadonnées
         $title = $ebook->getTitle() ?? 'Titre inconnu';
-        
+
         $authors = $ebook->getAuthors();
         $authorMain = $ebook->getAuthorMain();
-                
+
         if ($authorMain && method_exists($authorMain, 'getName')) {
             $author = $authorMain->getName();
         } elseif (!empty($authors)) {
             $author = $authors[0]; // Premier auteur si getAuthorMain() absent
         } else {
             $author = 'Auteur inconnu';
-}
+        }
 
         $lastName = $author;
-        if ( count(explode(' ', $author)) > 1  ) {
+        if (count(explode(' ', $author)) > 1) {
             $parts = explode(' ', $author);
             $lastName = end($parts);
-        }       
+        }
 
         // Renommer le fichier dans le storage
         $safeTitle = Str::slug($title);
         $safeAuthor = Str::slug($author);
         $safeName = $safeTitle . "_" . $safeAuthor . '.epub';
-        
+
         $newPath = 'books/' . $safeName;
         Storage::move($epubPath, $newPath);
-        
+
         $authors = collect($ebook->getAuthors())
             ->map(fn($a) => $a?->name ?? '')
             ->filter()
@@ -106,26 +122,38 @@ class BookController extends Controller
         $publisher     = $ebook->getPublisher()?->name ?? 'Inconnu';
 
         $coverContents = $ebook->getCover()?->getContents()
-                        ?? $this->coverService->fetchCover($title, $author);
+            ?? $this->coverService->fetchCover($title, $author);
 
         $coverPath = $this->storeCover($title, $coverContents);
-            
+
+
         // 5️⃣ Enregistrer dans la base
-        Book::create([
-            'title'        => $title,
-            'author'       => $author,
-            'authors'      => $authors,       // Laravel gère le JSON automatiquement
-            'lastName'     => $lastName,
-            'file'         => basename($newPath),
-            'cover'        => $coverPath,
-            'description'  => $description,
-            'publisher'    => $publisher,
-            'publisheDate' => $publishedDate,
-        ]);
+        try {
+            DB::transaction(function () use ($title, $author, $authors, $lastName, $newPath, $coverPath, $description, $publisher, $publishedDate) {
+                $book = Book::create([
+                    'title'        => $title,
+                    'author'       => $author,
+                    'authors'      => $authors,       // JSON géré automatiquement
+                    'lastName'     => $lastName,
+                    'file'         => basename($newPath),
+                    'cover'        => $coverPath,
+                    'description'  => $description,
+                    'publisher'    => $publisher,
+                    'publisheDate' => $publishedDate,
+                ]);
+
+                $book->users()->syncWithoutDetaching([auth()->id()]);
+            });
+
+            return redirect()->route('books.index')->with('success', 'Livre ajouté avec succès !');
+        } catch (\Throwable $e) {
+            return back()->withErrors(['error' => "Erreur lors de l'ajout du livre : " . $e->getMessage()]);
+        }
+
 
         return redirect()->route('books.index')->with('success', 'Livre ajouté !');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -134,15 +162,15 @@ class BookController extends Controller
     {
         return view('book', ['book' => $book]);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
-    */
+     */
     public function edit(Book $book)
     {
         return view('edit_book', ['book' => $book]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
@@ -166,22 +194,22 @@ class BookController extends Controller
         }
 
         $book->update($validated);
-        
+
         return redirect()->route('books.show', $book)
-                         ->with('success', 'Livre mis à jour avec succès !');
+            ->with('success', 'Livre mis à jour avec succès !');
     }
 
     /**
      * Remove the specified resource from storage.
-    */
+     */
     public function destroy(Book $book)
     {
         $epub = $book->file;
 
-        Storage::disk('local')->delete("books/".$epub);
-        
+        Storage::disk('local')->delete("books/" . $epub);
+
         $book->delete();
-        
+
         return redirect()->route('books.index');
     }
 }

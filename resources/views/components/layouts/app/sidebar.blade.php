@@ -37,7 +37,9 @@
         <flux:spacer />
         @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
             <!-- Contenu réservé à cet utilisateur -->
+            <a href="{{ route('admin.books') }}">Liste des livres</a>
             <a href="{{ route('user.add') }}">Ajouter un utilisateur</a>
+
         @endif
 
         <!-- Desktop User Menu -->
