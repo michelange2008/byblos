@@ -35,7 +35,7 @@
                                 opacity-0 group-hover:opacity-100 transition duration-300
                                 hidden sm:flex"
                                 title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
-                        <a href="{{ route('books.download', $book) }}"
+                        <a href="{{ route('books.prepareDownload', $book) }}"
                            class="text-white text-2xl hover:scale-125 transition">
                             <i class="fa-solid fa-download"></i>
                         </a>
@@ -48,7 +48,7 @@
 
                 <!-- Icons visible on mobile (sm:hidden) -->
                 <div class="flex justify-center gap-4 mt-2 text-gray-700 sm:hidden">
-                    <a href="{{ route('books.download', $book) }}"
+                    <a href="{{ route('books.prepareDownload', $book) }}"
                        class="text-gray-700 hover:text-black transition">
                         <i class="fa-solid fa-download text-xl"></i>
                     </a>

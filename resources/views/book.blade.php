@@ -1,4 +1,7 @@
 <x-layouts.app : title="{{ $book->title }}">
+
+    <x-flash />
+
     <div class="flex flex-col gap-2 xl:w-4/5 mr-5">
         <div class="">
             <p class="text-gray-500 underline mb-2">
@@ -19,7 +22,7 @@
 
                 <div class="flex flex-row justify-between">
                     <div>
-                        <a href="{{ route('books.download', $book) }}"
+                        <a href="{{ route('books.prepareDownload', $book) }}"
                             class="inline-block m-auto px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
                             Télécharger
                         </a>

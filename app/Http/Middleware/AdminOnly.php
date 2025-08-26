@@ -10,12 +10,10 @@ class AdminOnly
 {
     public function handle(Request $request, Closure $next)
     {
-        // Vérifie si l'utilisateur est connecté et a l'email souhaité
-        if (Auth::check() && Auth::user()->email === 'michelange@wanadoo.fr') {
-            return $next($request);
+        if (!auth()->check() || auth()->user()->email !== 'michelange@wanadoo.fr') {
+            return redirect()->route('login'); // redirection vers la page de login
         }
 
-        // Sinon on renvoie une erreur 403
-        abort(403, 'Accès refusé.');
+        return $next($request);
     }
 }

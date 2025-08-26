@@ -37,4 +37,8 @@ class Book extends Model
         return $this->users->first();
     }
 
+    public function downloads()
+    {
+        return $this->hasMany(Download::class);
+    }
 }

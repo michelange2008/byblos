@@ -35,12 +35,15 @@
         </flux:navlist>
 
         <flux:spacer />
-        @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
-            <!-- Contenu réservé à cet utilisateur -->
-            <a href="{{ route('admin.books') }}">Liste des livres</a>
-            <a href="{{ route('user.add') }}">Ajouter un utilisateur</a>
 
-        @endif
+        <div class="flex flex-col gap-2 text-gray-600">
+            @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
+                <!-- Contenu réservé à cet utilisateur -->
+                <a href="{{ route('admin.books') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-list"></i> Liste des livres</a>
+                <a href="{{ route('admin.downloads') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-download"></i> Téléchargements</a>
+                <a href="{{ route('user.add') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-user-plus"></i> Ajouter un utilisateur</a>
+            @endif
+        </div>
 
         <!-- Desktop User Menu -->
         <flux:dropdown class="hidden lg:block" position="bottom" align="start">
@@ -69,7 +72,8 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
-                    <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}
+                    <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
+                        {{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>
 

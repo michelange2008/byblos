@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Download;
+
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
+
+
 use App\Services\OpenLibraryService;
 use App\Traits\HandlesCovers;
-use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -33,28 +40,70 @@ class BookController extends Controller
         return view('bibliotheque', compact('books'));
     }
 
-    // Affiche dans la page d'administration la liste des livres avec date et nom de celui qui l'a mis
-    public function indexAdmin()
-    {
-        // Récupère tous les livres avec l'utilisateur lié, triés du plus récent au plus ancien
-        $books = Book::with('users')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        
-        $users = User::with('books')->get();
-
-        return view('admin.index_books', compact('books', 'users'));
-    }
-
 
     /** 
      * Permet de télécharger l'epub
      */
-    public function download(Book $book)
+    public function prepareDownload(Book $book)
     {
-        $path = Storage::disk('local')->path('books/' . $book->file);
+        $userId = auth()->id();
+        $filePath = "books/{$book->file}";
 
-        return response()->download($path, $book->title . '.epub');
+        try {
+            if (!Storage::disk('local')->exists($filePath)) {
+                Download::create([
+                    'user_id'       => $userId,
+                    'book_id'       => $book->id,
+                    'downloaded_at' => now(),
+                    'status'        => 'failed',
+                    'message'       => 'Fichier introuvable',
+                ]);
+
+                return redirect()->back()->with('error', 'Le fichier demandé est introuvable.');
+            }
+            else {
+                Download::create([
+                    'user_id'       => $userId,
+                    'book_id'       => $book->id,
+                    'downloaded_at' => now(),
+                    'status'        => 'success',
+                    'message'       => null,
+                ]);
+    
+                // Générer l'URL temporaire pour le téléchargement
+                $signedUrl = URL::temporarySignedRoute(
+                    'books.stream',
+                    now()->addMinutes(2),
+                    ['book' => $book->id]
+                );
+    
+                return redirect($signedUrl)->with('success', 'Le téléchargement va démarrer !');
+            }
+            
+        } catch (\Exception $e) {
+            report($e);
+
+            Download::create([
+                'user_id'       => $userId,
+                'book_id'       => $book->id,
+                'downloaded_at' => now(),
+                'status'        => 'failed',
+                'message'       => $e->getMessage(),
+            ]);
+
+            return redirect()->back()->with('error', 'Erreur lors du téléchargement : ' . $e->getMessage());
+        }
+    }
+
+    public function stream(Book $book)
+    {
+        if (! request()->hasValidSignature()) {
+            abort(403, 'Lien de téléchargement invalide ou expiré.');
+        }
+
+        $filePath = "books/{$book->file}";
+
+        return Storage::disk('local')->download($filePath, $book->file);
     }
 
     /**
