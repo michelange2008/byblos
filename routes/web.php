@@ -16,11 +16,11 @@ Route::get('/', function () {
 Route::middleware([AdminOnly::class])->prefix('admin')->group(function () {
 
     // Listes de livres de la page admin
-    Route::get('/books', [BookController::class, 'indexAdmin'])->name('admin.books');
+    Route::get('/books', [AdminController::class, 'indexAdmin'])->name('admin.books');
 
     Route::get('downloads', [AdminController::class, 'indexDownloads'])->name('admin.downloads');
 
-    Route::get('addUser', [AdminController::class, 'add'])->name('user.add');
+    Route::get('addUser', [UserController::class, 'add'])->name('user.add');
 });
 
 
