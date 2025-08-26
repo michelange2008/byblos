@@ -6,14 +6,12 @@
         @php
             $orphanBooks = $books->filter(fn($book) => !$book->owner);
         @endphp
-        @if($orphanBooks->isNotEmpty())
+        @if ($orphanBooks->isNotEmpty())
             <div class="mb-6 border rounded shadow-sm">
-                <button 
-                    type="button"
+                <button type="button"
                     class="w-full text-left px-4 py-2 bg-red-200 hover:bg-red-300 font-semibold flex justify-between items-center"
-                    onclick="document.getElementById('books-orphan').classList.toggle('hidden')"
-                >
-                    Livres sans utilisateur
+                    data-toggle="books-orphan">
+                    Livres sans utilisateur ({{ $books->count() }})
                     <span class="ml-2">▼</span>
                 </button>
                 <div id="books-orphan" class="hidden p-4">
@@ -44,17 +42,15 @@
         {{-- Livres par utilisateur --}}
         @foreach ($users as $user)
             <div class="mb-4 border rounded shadow-sm">
-                <button 
-                    type="button"
+                <button type="button"
                     class="w-full text-left px-4 py-2 bg-gray-200 hover:bg-gray-300 font-semibold flex justify-between items-center"
-                    onclick="document.getElementById('books-{{ $user->id }}').classList.toggle('hidden')"
-                >
-                    {{ $user->name }}
+                    data-toggle="books-{{ $user->id }}">
+                    {{ $user->name }} ({{ $user->books->count() }})
                     <span class="ml-2">▼</span>
                 </button>
 
                 <div id="books-{{ $user->id }}" class="hidden p-4">
-                    @if($user->books->isEmpty())
+                    @if ($user->books->isEmpty())
                         <p class="text-gray-500">Aucun livre ajouté par cet utilisateur.</p>
                     @else
                         <table class="table-auto w-full border-collapse border border-gray-300">
@@ -82,4 +78,29 @@
             </div>
         @endforeach
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionne tous les boutons qui contrôlent les sections
+            const buttons = document.querySelectorAll('button[data-toggle]');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.toggle;
+                    const target = document.getElementById(targetId);
+
+                    // Ferme tous les autres
+                    buttons.forEach(btn => {
+                        const otherTarget = document.getElementById(btn.dataset.toggle);
+                        if (otherTarget !== target) {
+                            otherTarget.classList.add('hidden');
+                        }
+                    });
+
+                    // Toggle l'élément actuel
+                    target.classList.toggle('hidden');
+                });
+            });
+        });
+    </script>
 </x-layouts.app>
