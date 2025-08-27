@@ -18,6 +18,9 @@
                 <flux:navlist.item icon="home" :href="route('books.index')"
                     :current="request()->routeIs('dashboard')" wire:navigate>{{ __('common.All_books') }}
                 </flux:navlist.item>
+                <flux:navlist.item icon="authors" :href="route('authors.index')"
+                    :current="request()->routeIs('dashboard')" wire:navigate>Par auteurs
+                </flux:navlist.item>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('Ajout')" class="grid">

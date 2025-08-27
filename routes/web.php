@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
+use App\Livewire\Authors;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Middleware\AdminOnly;
@@ -37,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::post('userStore', [UserController::class, 'store'])->name('user.store');
+
+    Route::get('/authors', Authors::class)->name('authors.index');
 
 });
 
