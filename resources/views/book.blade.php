@@ -32,7 +32,7 @@
                             class="inline-block m-auto px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:bg-gray-200 hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
                             Modifier
                         </a>
-                        @if($book->getOwnerAttribute() && $book->getOwnerAttribute()->id === auth()->id())                            
+                        @if($book->getOwnerAttribute() && $book->getOwnerAttribute()->id === auth()->id() || Auth::user()->hasRole('admin'))                            
                         <form action="{{ route('books.destroy', $book) }}" method="GET" x-data="{ open: false }">
                             @csrf
                             @method('GET')

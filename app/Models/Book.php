@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Book extends Model
 {
@@ -22,20 +23,30 @@ class Book extends Model
         'authors' => 'array',
     ];
 
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
-
-    function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
     public function getOwnerAttribute()
     {
         return $this->users->first();
     }
+
+    function isAdmin()
+    {
+        if (Auth::user()->email === "michelange@wanadoo.fr") {
+            return true;
+        } else {
+            return false;
+        }
+            
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }    
+
+    function users()
+    {
+        return $this->belongsToMany(User::class);
+    }    
 
     public function downloads()
     {
