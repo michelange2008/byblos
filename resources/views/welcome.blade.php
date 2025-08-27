@@ -25,7 +25,7 @@
         </header>
         <div class="flex flex-col gap-10 items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] border shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] ">
+                <div class="flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] ">
                     <p class="mb-1 ">Byblos</p>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Partageons nos lectures
                 </div>
@@ -33,7 +33,7 @@
                     <img class="" src="{{ asset('storage/img/babel.jpg') }}" alt="Bibliothèque de Babylone">
                 </div>
             </main>
-            <div class="mt-10 px-5 py-1.5 border text-gray-500 border-gray-500 hover:bg-gray-500 rounded hover:text-white cursor-pointer transition delay-150 ease-in-out">
+            <div class="mt-10 px-5 py-1.5 border bg-gray-200 text-gray-500 border-gray-200 hover:bg-gray-500 rounded hover:text-white cursor-pointer transition delay-150 ease-in-out">
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ route('books.index') }}">
