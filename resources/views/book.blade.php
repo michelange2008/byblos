@@ -2,6 +2,8 @@
 
     <x-flash />
 
+    <x-book-swipe :books="$books" :current-book="$book">
+
     <div class="sm:grid sm:grid-cols-[2fr_3fr] lg:gap-3 xl:gap-4">
 
 
@@ -66,7 +68,7 @@
             </div>
         </div>
     </div>
-
+    </x-book-swipe>
     <livewire:book-tags :book="$book" />
 
 

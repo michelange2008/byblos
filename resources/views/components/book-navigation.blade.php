@@ -13,7 +13,7 @@
             const dy = e.clientY - this.sy;
             this.sx = this.sy = null;
 
-            // Seulement un vrai swipe horizontal (>40px et plus horizontal que vertical)
+            // Seulement un vrai swipe horizontal
             if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
 
             if (dx < 0) this.swipe('left');
@@ -25,14 +25,14 @@
             this.animating = true;
 
             const container = this.$refs.container;
-            container.classList.remove('swipe-left', 'swipe-right');
+            container.classList.remove('slide-left', 'slide-right');
 
             if (direction === 'left') {
-                container.classList.add('swipe-left');
-                setTimeout(() => this.nextBook(), 250);
+                container.classList.add('slide-left');
+                setTimeout(() => this.nextBook(), 300);
             } else {
-                container.classList.add('swipe-right');
-                setTimeout(() => this.prevBook(), 250);
+                container.classList.add('slide-right');
+                setTimeout(() => this.prevBook(), 300);
             }
         },
 
@@ -51,7 +51,7 @@
     @touchend.window.passive="end($event.changedTouches[0])"
     style="touch-action: pan-y;"
 >
-    <div x-ref="container" class="transition-transform duration-200">
+    <div x-ref="container" class="transition-transform duration-300 ease-in-out">
         <!-- boutons navigation desktop -->
         <div class="flex justify-between">
             <button @click="prevBook()" class="hidden md:inline-block px-3 py-1 bg-gray-200 rounded"
@@ -68,6 +68,6 @@
 </div>
 
 <style>
-.swipe-left { transform: translateX(-80px); opacity: 0.6; }
-.swipe-right { transform: translateX(80px); opacity: 0.6; }
+.slide-left  { transform: translateX(-100vw); opacity: 0; }
+.slide-right { transform: translateX(100vw); opacity: 0; }
 </style>
