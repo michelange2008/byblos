@@ -49,7 +49,7 @@
                             <button type="button" class="px-5 py-2 text-red-800 border rounded hover:bg-red-700 hover:text-white"
                                 @click="open = true">Supprimer</button>
 
-                            <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black/50">
+                            <div x-show="open" x-cloak class="fixed inset-0 flex items-center justify-center bg-black/50">
                                 <div class="bg-white p-6 rounded shadow-lg">
                                     <p class="mb-4">Voulez-vous vraiment supprimer ce livre ?</p>
                                     <div class="flex justify-end gap-2">
