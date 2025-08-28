@@ -47,12 +47,47 @@
     }
 }
 
+@layer utilities {
+    .animate-slide-left {
+        animation: slideLeft 0.3s forwards;
+    }
+
+    .animate-slide-right {
+        animation: slideRight 0.3s forwards;
+    }
+
+    @keyframes slideLeft {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+    }
+
+    @keyframes slideRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+    }
+}
+
+
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
