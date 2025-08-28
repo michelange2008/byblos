@@ -24,7 +24,7 @@
                 <!-- Container cover + overlay (desktop) -->
                 <div class="relative group flex justify-center">
                     <a href="{{ route('books.show', $book->id) }}">
-                        <img class="h-[25vh] w-auto object-cover border-2 border-gray-300 rounded"
+                        <img class="w-[30vh] h-auto object-cover border-2 border-gray-300 rounded"
                              src="{{ asset('storage/' . $book->cover) }}"
                              alt="{{ $book->title }}"
                              title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
