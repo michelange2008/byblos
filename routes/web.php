@@ -21,7 +21,10 @@ Route::middleware([AdminOnly::class])->prefix('admin')->group(function () {
 
     Route::get('downloads', [AdminController::class, 'indexDownloads'])->name('admin.downloads');
 
-    Route::get('addUser', [UserController::class, 'add'])->name('user.add');
+    Route::resource('users', UserController::class)->except(['show']);
+    
+    // Route::get('addUser', [UserController::class, 'add'])->name('user.add');
+
 });
 
 

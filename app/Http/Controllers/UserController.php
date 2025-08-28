@@ -9,9 +9,52 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     
-    function add()
+    // Liste des utilisateurs
+    public function index()
     {
-        return View('addUser');    
+        $users = User::withCount([
+            'books as books_added_count',
+            'downloads as downloads_count'
+        ])->with('roles')->get();
+
+        return view('users.index', compact('users'));
+    }
+
+    // Formulaire d'édition
+    public function edit(User $user)
+    {
+        $roles = \App\Models\Role::all();
+        return view('users.edit', compact('user', 'roles'));
+    }
+
+    // Mise à jour d'un utilisateur
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email',
+            'roles' => 'array'
+        ]);
+
+        $user->update($request->only('name', 'email'));
+
+        // Mise à jour des rôles
+        $user->roles()->sync($request->input('roles', []));
+
+        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour');
+    }
+
+
+    // Suppression d'un utilisateur
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'Utilisateur supprimé');
+    }
+
+    function create()
+    {
+        return View('users.add');    
     }
 
     function store(Request $request)

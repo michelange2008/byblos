@@ -42,9 +42,10 @@
         <div class="flex flex-col gap-2 text-gray-600">
             @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
                 <!-- Contenu réservé à cet utilisateur -->
-                <a href="{{ route('admin.books') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-list"></i> Liste des livres</a>
-                <a href="{{ route('admin.downloads') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-download"></i> Téléchargements</a>
-                <a href="{{ route('user.add') }}" class="hover:bg-gray-300 p-1 rounded border"><i class="fa-solid fa-user-plus"></i> Ajouter un utilisateur</a>
+                <a href="{{ route('admin.books') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.book-open-text/>Liste des livres</a>
+                <a href="{{ route('admin.downloads') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.download/> Téléchargements</a>
+                <a href="{{ route('users.index') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.users/> Utilisateurs</a>
+                <a href="{{ route('users.create') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.useradd/>Ajouter un utilisateur</a>
             @endif
         </div>
 

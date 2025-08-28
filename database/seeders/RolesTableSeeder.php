@@ -11,7 +11,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         // Crée les rôles de base
-        $roles = ['admin', 'editor', 'user'];
+        $roles = ['admin', 'membre', 'visiteur'];
 
         foreach ($roles as $role) {
             Role::firstOrCreate(['name' => $role]);
