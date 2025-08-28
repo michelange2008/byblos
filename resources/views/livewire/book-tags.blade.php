@@ -1,6 +1,6 @@
-<div class="mt-4">
+<div class="mt-4 p-5">
     <div class="mb-4 pb-4 border-b">
-        <p>
+        <p class="text-sm text-gray-500">
             Etiquettes du livre (cliquer pour supprimer)
         </p>
         <!-- Liste des tags -->
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div>
-        <p>
+        <p class="text-sm text-gray-500">
             Etiquettes disponibles (cliquer pour ajouter au livre)
         </p>
         <div class="flex flex-wrap gap-2 m-3">

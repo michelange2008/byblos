@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto p-4">
+<div class="max-w-5xl mx-auto p-4">
     <!-- Barre de recherche -->
     <div class="relative mb-4">
         <input type="text" 

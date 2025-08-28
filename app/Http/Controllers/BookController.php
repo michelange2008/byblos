@@ -60,8 +60,7 @@ class BookController extends Controller
                 ]);
 
                 return redirect()->back()->with('error', 'Le fichier demandé est introuvable.');
-            }
-            else {
+            } else {
                 Download::create([
                     'user_id'       => $userId,
                     'book_id'       => $book->id,
@@ -69,17 +68,16 @@ class BookController extends Controller
                     'status'        => 'success',
                     'message'       => null,
                 ]);
-    
+
                 // Générer l'URL temporaire pour le téléchargement
                 $signedUrl = URL::temporarySignedRoute(
                     'books.stream',
                     now()->addMinutes(2),
                     ['book' => $book->id]
                 );
-    
+
                 return redirect($signedUrl)->with('success', 'Le téléchargement va démarrer !');
             }
-            
         } catch (\Exception $e) {
             report($e);
 
@@ -209,7 +207,8 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view('book', ['book' => $book]);
+        $books = Book::orderBy('lastName')->get(); // ou filtré selon ta logique
+        return view('book', compact('book', 'books'));
     }
 
     /**
