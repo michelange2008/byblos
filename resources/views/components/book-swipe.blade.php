@@ -1,7 +1,14 @@
 <div x-data="bookSwipe()" 
      @touchstart="handleTouchStart($event)" 
-     @touchend="handleTouchEnd($event)" 
+     @touchend="handleTouchEnd($event)"
+         @keydown.window="
+        if ($event.key === 'ArrowRight') nextBook();
+        if ($event.key === 'ArrowLeft') prevBook();
+        "
+ 
      class="overflow-hidden">
+
+     
 
     <div 
         x-ref="bookContainer"

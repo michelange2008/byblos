@@ -16,7 +16,7 @@
 
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col mb-2 md:mb-0">
 
             <h1 class="font-bold text-3xl">{{ $book->title }}</h1>
             <h2 class="font-bold">{{ $book->author }}</h2>
