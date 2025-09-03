@@ -48,24 +48,37 @@
 }
 
 @layer utilities {
+    .animate-slide-left {
+        animation: slideLeft 0.3s forwards;
+    }
 
-}
+    .animate-slide-right {
+        animation: slideRight 0.3s forwards;
+    }
 
+    @keyframes slideLeft {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-@utility btn-base {
-  @apply flex items-center gap-2 px-4 py-2 border rounded font-medium text-sm;
-}
+        to {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+    }
 
-@utility btn-primary {
-  @apply btn-base bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-zinc-700 dark:border-gray-200 dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
-}
+    @keyframes slideRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-@utility btn-secondary {
-  @apply btn-base bg-white hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
-}
-
-@utility btn-danger {
-  @apply btn-base bg-white text-red-700 hover:bg-red-700 hover:text-white dark:bg-transparent dark:text-red-600 hover:dark:text-black hover:dark:bg-red-600 hover:dark:border-red-700;
+        to {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+    }
 }
 
 
