@@ -52,4 +52,9 @@ class Book extends Model
     {
         return $this->hasMany(Download::class);
     }
+
+    function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Book;
+use App\Models\Comment;
 use App\Policies\BookPolicy;
+use App\Policies\CommentPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // Lier le modèle Book à sa Policy
         Book::class => BookPolicy::class,
+        Comment::class => CommentPolicy::class,
     ];
 
     /**

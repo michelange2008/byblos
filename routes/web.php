@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 use App\Livewire\Authors;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -44,6 +45,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/authors', Authors::class)->name('authors.index');
 
+    Route::post('/books/{book}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+    Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+
+    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+
 });
 
 Route::middleware(['auth'])->prefix('books')->group(function () {   
@@ -74,7 +84,7 @@ Route::middleware(['auth'])->prefix('books')->group(function () {
     Route::put('/update/{book}', [BookController::class, 'update'])->name('books.update');
 
     // Supprime un livre
-    Route::get('/{book}/destroy', [BookController::class, 'destroy'])->name('books.destroy');
+    Route::delete('/{book}/destroy', [BookController::class, 'destroy'])->name('books.destroy');
 
 });
 
