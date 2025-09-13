@@ -47,9 +47,7 @@
             <div>
                 <label for="cover" class="block text-sm font-medium text-gray-700">Couverture</label>
                 <input type="file" name="cover" id="cover"
-                       class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
-                              file:rounded file:border-0 file:text-sm file:font-semibold
-                              file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                       class="btn-blue text-xs">
                 @if ($book->cover)
                     <img src="{{ asset('storage/' . $book->cover) }}" alt="cover" class="mt-4 w-40 border rounded">
                 @endif
@@ -57,14 +55,10 @@
 
             <!-- Boutons -->
             <div class="flex gap-4">
-                <button type="submit"
-                        class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
-                    Enregistrer
-                </button>
-                <a href="{{ route('books.show', $book) }}"
-                   class="px-6 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">
-                    Annuler
-                </a>
+                <x-form-button type="submit" class="btn-primary">Enregistrer</x-form-button>
+
+                <x-cancel-button href="{{ route('books.show', $book) }}">Annuler</x-cancel-button>
+
             </div>
         </form>
     </div>

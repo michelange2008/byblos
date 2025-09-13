@@ -1,13 +1,13 @@
 @props([
     'type' => 'submit',
-    'class' => 'primary',  // primary | secondary | danger | small
-    'icon' => null,
-    'confirm' => false,
+    'class' => 'btn-primary',  // primary | secondary | danger | small
+    'icon' => 'save',
+    'confirm' => null,
 ])
 
 <button
     type="{{ $type }}"
-    {{ $attributes->merge(['class' => "btn-$class"]) }}
+    {{ $attributes->merge(['class' => $class]) }}
     @if($confirm)
         x-data
         @click.prevent="
@@ -16,7 +16,7 @@
     @endif
 >
     @if($icon)
-        <x-dynamic-component :component="$icon" class="w-4 h-4" />
+        <i data-lucide={{ e($icon) }} class="w-4 h-4"></i>
     @endif
     {{ $slot }}
 </button>

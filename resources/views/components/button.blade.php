@@ -1,15 +1,17 @@
 @props([
-    'class' => 'primary',  // primary | secondary | danger
+    'class' => 'btn-primary',  // btn-primary | btn-secondary | btn-danger
     'icon' => null,
 ])
 
+
 <{{ $attributes->get('as', 'button') }}
-    {{ $attributes->except('as')->merge([
-        'class' => "btn-$class"
+    {{ $attributes->except('as')->class([
+        $class
     ]) }}
 >
     @if($icon)
-        <x-dynamic-component :component="$icon" class="w-4 h-4" />
+
+        <i data-lucide={{ e($icon) }} class="w-4 h-4"></i>
     @endif
     {{ $slot }}
 </{{ $attributes->get('as', 'button') }}>

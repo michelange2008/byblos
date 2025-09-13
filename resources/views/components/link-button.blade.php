@@ -1,6 +1,6 @@
 @props([
     'href',
-    'class' => null,
+    'class',
     'icon' => null,
 ])
 

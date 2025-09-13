@@ -35,18 +35,19 @@
 
                 <div class="flex flex-row justify-between items-center">
 
-                    <x-button :href="route('books.prepareDownload', $book)" class="primary" icon="flux::icon.download">
+                    <x-button :href="route('books.prepareDownload', $book)" class="btn-primary" icon="download">
                         Télécharger
                     </x-button>
 
+
                     <div class="flex gap-2">
 
-                        <x-link-button :href="route('books.edit', $book)" class="secondary" icon="flux::icon.pen">
+                        <x-link-button :href="route('books.edit', $book)" class="btn-secondary" icon="pencil">
                             Modifier
                         </x-link-button>
 
                         @if (($book->getOwnerAttribute()?->id ?? null) === auth()->id() || Auth::user()->hasRole('admin'))
-                            <x-confirm-button :action="route('books.destroy', $book)" title="Supprimer le livre" icon="flux::icon.trash"
+                            <x-confirm-button :action="route('books.destroy', $book)" title="Supprimer le livre"
                                 message="Voulez-vous vraiment supprimer ce livre ?">
                                 Supprimer
                             </x-confirm-button>

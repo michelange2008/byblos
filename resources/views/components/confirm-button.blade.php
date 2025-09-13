@@ -1,29 +1,26 @@
 @props([
     'action' => null,
     'method' => 'DELETE',
-    'class' => 'danger',
+    'class' => 'btn-danger',
     'title' => 'Confirmation',
     'message' => 'Voulez-vous vraiment continuer ?',
     'confirmText' => 'Confirmer',
     'cancelText' => 'Annuler',
-    'icon' => 'flux::icon.trash',
+    'icon' => 'trash',
 ])
 
 <div x-data="{ open: false }" class="inline-block">
     <!-- Bouton déclencheur -->
-    <button type="button"
-        @click="open = true"
-        class="btn-{{ $class }}"
-        @if($icon)
-            <x-dynamic-component :component="$icon" class="w-4 h-4" />
+    <button type="button" @click="open = true" class="{{ $class }}">
+        @if ($icon)
+            <i data-lucide={{ e($icon) }} class="w-4 h-4"></i>
         @endif
         {{ $slot }}
     </button>
 
     <!-- Fenêtre modale -->
-    <div x-show="open" x-cloak
-         class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
-         @click.self="open = false">
+    <div x-show="open" x-cloak class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+        @click.self="open = false">
 
         <div class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg max-w-sm w-full">
             <h2 class="text-lg font-bold mb-2">{{ $title }}</h2>

@@ -1,12 +1,12 @@
 @props([
     'href' => '#',
-    'class' => 'secondary',
-    'icon' => 'flux::icon.x', // par ex. une icône "X" pour annuler
+    'class' => 'btn-secondary',
+    'icon' => 'undo-2', 
 ])
 
-<a href="{{ $href }}" {{ $attributes->merge(['class' => "btn-$class"]) }}>
+<a href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
     @if($icon)
-        <x-dynamic-component :component="$icon" class="w-4 h-4" />
+        <i data-lucide={{ e($icon) }} class="w-4 h-4"></i>
     @endif
     {{ $slot }}
 </a>

@@ -34,11 +34,7 @@
                                 <div class="flex justify-center gap-4 mb-3 text-gray-700 sm:hidden items-end">
                                     <a href="{{ route('books.prepareDownload', $book->id) }}"
                                         class="text-gray-700 hover:text-black transition">
-                                        <i class="fa-solid fa-download text-xl"></i>
-                                    </a>
-                                    <a href="{{ route('books.show', $book->id) }}"
-                                        class="text-gray-700 hover:text-black transition">
-                                        <i class="fa-regular fa-eye text-xl"></i>
+                                        <i data-lucide="download" class="w-4 h-4"></i>
                                     </a>
                                 </div>
                             </div>

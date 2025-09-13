@@ -15,24 +15,16 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Principal')" class="grid">
-                <flux:navlist.item icon="home" :href="route('books.index')"
-                    :current="request()->routeIs('dashboard')" wire:navigate>{{ __('common.All_books') }}
-                </flux:navlist.item>
-                <flux:navlist.item icon="authors" :href="route('authors.index')"
-                    :current="request()->routeIs('dashboard')" wire:navigate>Par auteurs
-                </flux:navlist.item>
+                <x-buttons.nav-button route="books.index" icon="house">Tous les livres</x-buttons.nav-button>
+                <x-buttons.nav-button route="authors.index" icon="users-round">Par auteurs</x-buttons.nav-button>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('Ajout')" class="grid">
-                <flux:navlist.item icon="book-open-text" :href="route('books.create')"
-                    :current="request()->routeIs('dashboard')" wire:navigate>{{ __('common.Add_books') }}
-                </flux:navlist.item>
+                <x-buttons.nav-button route="books.create" icon="book-open-text">Ajouter un livre</x-buttons.nav-button>
             </flux:navlist.group>
 
             <flux:navlist.group :heading="__('Tags')" class="grid">
-                <flux:navlist.item icon="tag-icon" :href="route('admin.tags')"
-                    :current="request()->routeIs('dashboard')" wire:navigate>Etiquettes
-                </flux:navlist.item>
+                <x-buttons.nav-button route="admin.tags" icon="tag">Etiquettes</x-buttons.nav-button>
             </flux:navlist.group>
 
         </flux:navlist>
@@ -42,10 +34,18 @@
         <div class="flex flex-col gap-2 text-gray-600">
             @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
                 <!-- Contenu réservé à cet utilisateur -->
-                <a href="{{ route('admin.books') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.book-open-text/>Liste des livres</a>
-                <a href="{{ route('admin.downloads') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.download/> Téléchargements</a>
-                <a href="{{ route('users.index') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.users/> Utilisateurs</a>
-                <a href="{{ route('users.create') }}" class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><x-flux::icon.useradd/>Ajouter un utilisateur</a>
+                <a href="{{ route('admin.books') }}"
+                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
+                        data-lucide="book-open-text" class="w-4 h-4"></i>Liste des livres</a>
+                <a href="{{ route('admin.downloads') }}"
+                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
+                        data-lucide="download" class="w-4 h-4"></i> Téléchargements</a>
+                <a href="{{ route('users.index') }}"
+                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
+                        data-lucide="users-round" class="w-4 h-4"></i> Utilisateurs</a>
+                <a href="{{ route('users.create') }}"
+                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
+                        data-lucide="user-plus" class="w-4 h-4"></i>Ajouter un utilisateur</a>
             @endif
         </div>
 

@@ -23,6 +23,10 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
+    --color-red-pastel: #DB6A8F;
+    --color-green-pastel: #4AA3A2;
+    --color-blue-pastel: #5784BA;
+
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
@@ -57,17 +61,20 @@
 }
 
 @utility btn-primary {
-  @apply btn-base bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-zinc-700 dark:border-gray-200 dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
+  @apply btn-base bg-gray-200 text-green-800 hover:bg-green-pastel hover:text-white dark:bg-zinc-700 dark:border-gray-200 dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
 }
 
 @utility btn-secondary {
-  @apply btn-base bg-white hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
+  @apply btn-base bg-white text-gray-700 hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
 }
 
 @utility btn-danger {
-  @apply btn-base bg-white text-red-700 hover:bg-red-700 hover:text-white dark:bg-transparent dark:text-red-600 hover:dark:text-black hover:dark:bg-red-600 hover:dark:border-red-700;
+  @apply btn-base bg-white text-red-700 hover:bg-red-pastel hover:text-white dark:bg-transparent dark:text-red-600 hover:dark:text-black hover:dark:bg-red-600 hover:dark:border-red-700;
 }
 
+@utility btn-blue {
+  @apply btn-base bg-gray-200 text-blue-pastel hover:bg-blue-pastel hover:text-white dark:bg-zinc-700 dark:border-gray-200 dark:hover:bg-gray-300 dark:text-white hover:dark:text-black;
+}
 
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;

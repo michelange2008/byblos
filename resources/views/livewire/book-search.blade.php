@@ -37,11 +37,11 @@
                                 title="{{ $book->author.' - '.$book->title." (".$book->lastName.")" }}">
                         <a href="{{ route('books.prepareDownload', $book) }}"
                            class="text-white text-2xl hover:scale-125 transition">
-                            <i class="fa-solid fa-download"></i>
+                            <i data-lucide="download"></i>
                         </a>
                         <a href="{{ route('books.show', $book) }}"
                            class="text-white text-2xl hover:scale-125 transition">
-                            <i class="fa-regular fa-eye"></i>
+                            <i data-lucide="eye"></i>
                         </a>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="flex justify-center gap-4 mt-2 text-gray-700 sm:hidden">
                     <a href="{{ route('books.prepareDownload', $book) }}"
                        class="text-gray-700 hover:text-black transition">
-                        <i class="fa-solid fa-download text-xl"></i>
+                        <i data-lucide="download"></i>
                     </a>
                 </div>
 
