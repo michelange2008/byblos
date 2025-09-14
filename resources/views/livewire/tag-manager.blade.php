@@ -5,7 +5,7 @@
     <div class="flex gap-2 mb-4">
         <input type="text" wire:model="name" placeholder="Nom du tag" class="border rounded px-2 py-1 w-full">
         <button wire:click="save" class="btn-primary">
-            <i data-lucide="plus"></i>
+            <x-flux::icon.plus/>
             {{ $editingId ? 'Modifier' : 'Ajouter' }}
         </button>
         @if ($editingId)
@@ -29,13 +29,13 @@
                     <div class="flex gap-2">
                         <button wire:click="edit({{ $tag->id }})" title="Modifier ce tag"
                             class="text-gray-600 hover:text-green-600 cursor-pointer">
-                            <i data-lucide="pencil" class="w-4 h-4 hover:w-5 hover:h-5"></i>
+                            <x-flux::icon.pencil class="w-4 h-4 hover:w-5 hover:h-5"/>
                         </button>
 
                         <!-- Bouton suppression avec confirmation -->
                         <button x-show="!confirmDelete" @click="confirmDelete = true" title="Supprimer ce tag"
                             class="text-zinc-600 hover:text-red-600 cursor-pointer">
-                          <i data-lucide="trash" class="w-4 h-4 hover:w-5 hover:h-5"></i>
+                            <x-flux::icon.trash class="w-4 h-4 hover:w-5 hover:h-5"/>
                         </button>
 
                         <span x-show="confirmDelete" x-cloak class="flex gap-1">

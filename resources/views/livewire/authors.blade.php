@@ -20,25 +20,29 @@
                 <h2 class="text-lg font-bold mb-2">
                     {{ $author->author }}
                 </h2>
-    
+
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     @foreach ($books as $book)
                         @if ($book->lastName === $author->lastName)
                             <div class="flex flex-col gap-1 justify-center">
                                 <a href="{{ route('books.show', $book->id) }}">
                                     <img class="h-[20vh] sm:h-[10vh] w-auto object-cover m-auto"
-                                    src="{{ asset('storage/' . $book->cover) }}" alt="{{ $book->title }}" title="Cliquer pour plus de détail">
+                                        src="{{ asset('storage/' . $book->cover) }}" alt="{{ $book->title }}"
+                                        title="Cliquer pour plus de détail">
                                 </a>
-                                <p class="collapse sm:visible text-sm truncate" title="{{ $book->title }}">{{ $book->title }}</p>
+                                <p class="collapse sm:visible text-sm truncate" title="{{ $book->title }}">
+                                    {{ $book->title }}</p>
                                 <!-- Icons visibles mobile -->
                                 <div class="flex justify-center gap-4 mb-3 text-gray-700 sm:hidden items-end">
                                     <a href="{{ route('books.prepareDownload', $book->id) }}"
                                         class="text-gray-700 hover:text-black transition">
-                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                        <x-flux::icon.download/>
                                     </a>
+
                                 </div>
                             </div>
-                            <p class="sm:collapse visible text-sm sm:truncate" title="{{ $book->title }}">{{ $book->title }}</p>
+                            <p class="sm:collapse visible text-sm sm:truncate" title="{{ $book->title }}">
+                                {{ $book->title }}</p>
                         @endif
                     @endforeach
                 </div>

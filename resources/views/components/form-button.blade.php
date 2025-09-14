@@ -16,7 +16,7 @@
     @endif
 >
     @if($icon)
-        <i data-lucide={{ e($icon) }} class="w-4 h-4"></i>
+        <x-flux::icon :icon="$icon" class="w-4 h-4" />
     @endif
     {{ $slot }}
 </button>

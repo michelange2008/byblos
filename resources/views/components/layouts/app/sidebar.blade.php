@@ -34,18 +34,16 @@
         <div class="flex flex-col gap-2 text-gray-600">
             @if (auth()->check() && auth()->user()->email === 'michelange@wanadoo.fr')
                 <!-- Contenu réservé à cet utilisateur -->
-                <a href="{{ route('admin.books') }}"
-                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
-                        data-lucide="book-open-text" class="w-4 h-4"></i>Liste des livres</a>
-                <a href="{{ route('admin.downloads') }}"
-                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
-                        data-lucide="download" class="w-4 h-4"></i> Téléchargements</a>
-                <a href="{{ route('users.index') }}"
-                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
-                        data-lucide="users-round" class="w-4 h-4"></i> Utilisateurs</a>
-                <a href="{{ route('users.create') }}"
-                    class="hover:bg-gray-300 p-1 rounded border flex flex-row gap-2 items-center"><i
-                        data-lucide="user-plus" class="w-4 h-4"></i>Ajouter un utilisateur</a>
+                <x-buttons.nav-large-button icon="book-open-text">Liste des livres</x-buttons.nav-large-button>
+
+                <x-buttons.nav-large-button route="admin.downloads"
+                    icon="download">Téléchargements</x-buttons.nav-large-button>
+
+                <x-buttons.nav-large-button route="users.index"
+                    icon="users-round">Utilisateurs</x-buttons.nav-large-button>
+
+                <x-buttons.nav-large-button route="users.create" icon="user-plus">Ajouter un
+                    utilisateur</x-buttons.nav-large-button>
             @endif
         </div>
 
